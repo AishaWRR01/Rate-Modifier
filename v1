@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            color: #333;
+        }
+        
+        h1 {
+            color: #4169FF;
+            font-size: 32px;
+            margin-bottom: 24px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 16px;
+            font-size: 18px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .calculation-box {
+            background-color: #f8f9fe;
+            border-radius: 8px;
+            padding: 24px;
+        }
+        
+        .calculation-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 18px;
+        }
+        
+        .total {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 16px;
+            padding-top: 24px;
+            font-weight: 600;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rate Modifier</h1>
+    
+    <select id="roleSelect" onchange="updateCalculation()">
+        <option value="marketing">Marketing Specialist</option>
+        <option value="developer">Software Developer</option>
+        <option value="designer">UX Designer</option>
+        <option value="pm">Project Manager</option>
+    </select>
+
+    <div class="calculation-box">
+        <div class="calculation-item">
+            <span>Base Employee Rate:</span>
+            <span id="baseRate">$40/hour</span>
+        </div>
+        <div class="calculation-item">
+            <span>Health Insurance:</span>
+            <span id="healthIns">+$5/hour</span>
+        </div>
+        <div class="calculation-item">
+            <span>Self-Employment Taxes:</span>
+            <span id="selfEmployTax">+$6.12/hour</span>
+        </div>
+        <div class="calculation-item">
+            <span>Overheads:</span>
+            <span id="overheads">+$4/hour</span>
+        </div>
+        <div class="calculation-item">
+            <span>Expected Profit Margin:</span>
+            <span id="profitMargin">+$8/hour</span>
+        </div>
+        <div class="calculation-item">
+            <span>Specialty Role Premium:</span>
+            <span id="rolePremium">+$5/hour</span>
+        </div>
+        <div class="calculation-item total">
+            <span>Total Contractor Rate:</span>
+            <span id="totalRate">$68.12/hour</span>
+        </div>
+    </div>
+
+    <script>
+        const rates = {
+            marketing: {
+                base: 40,
+                health: 5,
+                tax: 6.12,
+                overhead: 4,
+                profit: 8,
+                premium: 5
+            },
+            developer: {
+                base: 65,
+                health: 7,
+                tax: 9.95,
+                overhead: 6,
+                profit: 13,
+                premium: 10
+            },
+            designer: {
+                base: 55,
+                health: 6,
+                tax: 8.42,
+                overhead: 5,
+                profit: 11,
+                premium: 7
+            },
+            pm: {
+                base: 60,
+                health: 6.5,
+                tax: 9.18,
+                overhead: 5.5,
+                profit: 12,
+                premium: 8
+            }
+        };
+
+        function updateCalculation() {
+            const role = document.getElementById('roleSelect').value;
+            const rate = rates[role];
+            
+            document.getElementById('baseRate').textContent = `$${rate.base}/hour`;
+            document.getElementById('healthIns').textContent = `+$${rate.health}/hour`;
+            document.getElementById('selfEmployTax').textContent = `+$${rate.tax}/hour`;
+            document.getElementById('overheads').textContent = `+$${rate.overhead}/hour`;
+            document.getElementById('profitMargin').textContent = `+$${rate.profit}/hour`;
+            document.getElementById('rolePremium').textContent = `+$${rate.premium}/hour`;
+
+            const total = (rate.base + rate.health + rate.tax + rate.overhead + rate.profit + rate.premium).toFixed(2);
+            document.getElementById('totalRate').textContent = `$${total}/hour`;
+        }
+
+        // Initialize with default values (Marketing Specialist)
+        updateCalculation();
+    </script>
+</body>
+</html>
